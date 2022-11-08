@@ -1,11 +1,14 @@
+-- insert database fakultas
 CREATE DATABASE fakultas;
 
+-- insert table jurusan
 CREATE TABLE jurusan (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     kode CHAR(4) NOT NULL,
     nama VARCHAR(50) NOT NULL
 );
 
+-- insert table mahasiswa
 CREATE TABLE mahasiswa (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     id_jurusan INTEGER NOT NULL,
@@ -26,7 +29,7 @@ insert into jurusan (kode, nama) values ("PE", "Pendidikan Ekonomi");
  insert into mahasiswa (id_jurusan, nim, nama, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat)value (2, "20021005", "Fahrudin Ali", "Laki-laki", "Jakarta", "2002-05-19", "Jl. Bumi Bintaro Permai");
 
  -- update mahasiswa
- update mahasiswa set tempat_lahir = "Tangerang";
+ update mahasiswa set tempat_lahir = "Tangerang" where id = 2;
 
  -- delete mahasiswa
  delete from mahasiswa where id = 2;
