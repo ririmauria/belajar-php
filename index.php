@@ -1,23 +1,24 @@
 <?php
-// 1. Buat koreksi dengan MySQL
+
+// 1. Buat koneksi dengan MySQL
 $con = mysqli_connect("localhost","root","","fakultas");
 
 // 2. Cek koneksi dengan MySQL
 if(mysqli_connect_errno()){
-    echo "koneksi gaga ". mysqli_connect_error();
+    echo "Failed to connect to MySQL: ". mysqli_connect_error();
+    exit();
 }else{
     echo "koneksi berhasil";
 }
 
-// 3. membaca data dari table mysql.
-$query = "SELECT * FROM mahasiswa";
+// 3. buat query baca semua data dari table
+$sql = "SELECT * FROM mahasiswa";
 
-// 4. tampilkan data, dengan menjalankan sql query
-$result = mysqli_query($con, $query);
+// 4. tampilkan data, cek apakah query dijalankan
 $mahasiswa = [];
-if ($result){
-    // tampilkan data satu per satu
-    while($row = mysqli_fetch_assoc($result)){
+if ($result = mysqli_query($con, $sql)) {
+    // tampilkan satu per satu
+    while($row = mysqli_fetch_assoc($result)) {
         $mahasiswa[] = $row;
     }
     mysqli_free_result($result);
@@ -25,7 +26,6 @@ if ($result){
 
 // 5. tutup koneksi mysql
 mysqli_close($con);
-
 ?>
 
 <!DOCTYPE html>
@@ -38,16 +38,30 @@ mysqli_close($con);
 </head>
 <body>
     <h1>Data Mahasiswa</h1>
-    <table border="1" style="width;100%;">
-        <tr>
-            <th>NIM</th>
-            <th>Nama</th>
-        </tr>
-        <?php foreach($mahasiswa as $value): ?>
-        <tr>
-            <td><?php echo $value["nim"]; ?></td>
-            <td><?php echo $value["nama"]; ?></td>
-        </tr>
+    <a href="insert.php">Tambah Data</a>
+    <table border="1" style="width; 100%;">
+            <tr>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Tempat Lahir</th>
+                <th>Tanggal Lahir</th>
+                <th>Alamat</th>
+                <th>Action</th>
+            </tr>
+            <?php foreach($mahasiswa as $value): ?>
+            <tr>
+                <td><?= $row['nim'] ?></td>
+                <td><?= $row['nama'] ?></td>
+                <td><?= $row['jenis_kelamin'] ?></td>
+                <td><?= $row['tempat_lahir'] ?></td>
+                <td><?= $row['tanggal_lahir'] ?></td>
+                <td><?= $row['alamat'] ?></td>
+                <td>
+                    <a href="update.php?id=<?= $row['id'] ?>" >Edit</a>
+                    <a href="delete.php?id<?= $row['id'] ?>" >Delete</a>
+                </td>
+            </tr>
         <?php endforeach; ?>
     </table>
 </body>
